@@ -42,6 +42,28 @@ function App() {
     setFetchdata(jsonData);
   };
 
+
+    //To Insert Value In Input
+    const createValue = (e) => {
+      setCreate(e.target.value);
+      // console.log(e.target.value)
+    };
+  
+  // Will save New Value In The data
+    const saveInput = async () => {
+      let url = await fetch("http://localhost:80/todo-api/Create.php", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          tododesc: create,
+        }),
+      });
+      setCreate("");
+      fetchApi();
+    };
+
   // To Call Delete Api And Delete id
   const deleteItem = async (id) => {
     // console.log(id)
@@ -99,26 +121,6 @@ function App() {
     handleClose();
   };
 
-  //To Insert Value In Input
-  const createValue = (e) => {
-    setCreate(e.target.value);
-    // console.log(e.target.value)
-  };
-
-// Will save New Value In The data
-  const saveInput = async () => {
-    let url = await fetch("http://localhost:80/todo-api/Create.php", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        tododesc: create,
-      }),
-    });
-    setCreate("");
-    fetchApi();
-  };
 
   //Will Run When Page Renders
   useEffect(() => {
