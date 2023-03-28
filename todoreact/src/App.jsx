@@ -7,21 +7,33 @@ import Modal from "react-bootstrap/Modal";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
+  //State For Fetch All Data
   const [fetchdata, setFetchdata] = useState();
+
+  //State To Create New Data
   const [create, setCreate] = useState("");
+
+  //State To Set Perticular id
   const [id, setId] = useState();
+
+  //State To Set perticular Value
   const [value, setValue] = useState();
 
+  //State for Edit 
   const [edit, setEdit] = useState("");
 
+  // Ref to Get Previous Value
   const ref = useRef();
+   // Ref to Get Previous Id
   const hiddenref = useRef();
 
+  //Bootstrap Modal Show
   const [show, setShow] = useState(false);
-
+//Bootstrap Modal Show
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+  // To Fetch All Api
   const fetchApi = async () => {
     let url = "http://localhost:80/todo-api/fetchall.php";
     let data = await fetch(url);
@@ -29,6 +41,8 @@ function App() {
 
     setFetchdata(jsonData);
   };
+
+  // To Call Delete Api And Delete id
   const deleteItem = async (id) => {
     // console.log(id)
     let url = await fetch("http://localhost:80/todo-api/delete.php", {
@@ -42,9 +56,10 @@ function App() {
     });
     const data = await url.json();
     fetchApi();
-    // console.log(data)
   };
 
+
+  // To Fetch Edit Api and set New Values in Them 
   const editPopModal = async (id) => {
     let url = await fetch("http://localhost:80/todo-api/fetchbyid.php", {
       method: "POST",
@@ -63,10 +78,12 @@ function App() {
     handleShow();
   };
 
+  // In Edit Input insert New Value
   const editItem = (e) => {
     setEdit({ id: hiddenref.current.value, value: ref.current.value });
   };
 
+  //Will Change The Previous Value And Replace With New Value
   const saveChanges = async () => {
     let url = await fetch("http://localhost:80/todo-api/update.php", {
       method: "POST",
@@ -82,11 +99,13 @@ function App() {
     handleClose();
   };
 
+  //To Insert Value In Input
   const createValue = (e) => {
     setCreate(e.target.value);
     // console.log(e.target.value)
   };
 
+// Will save New Value In The data
   const saveInput = async () => {
     let url = await fetch("http://localhost:80/todo-api/Create.php", {
       method: "POST",
@@ -97,11 +116,11 @@ function App() {
         tododesc: create,
       }),
     });
-    setCreate(" ");
+    setCreate("");
     fetchApi();
-    // handleClose()
   };
 
+  //Will Run When Page Renders
   useEffect(() => {
     fetchApi();
   }, []);

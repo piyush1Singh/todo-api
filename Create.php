@@ -9,7 +9,7 @@ if (isset($json->tododesc)) {
     $tododesc = $json->tododesc;
     $date= date("y-m-d");
 
-    $query  = "INSERT INTO `todolist`( `tododesc`) VALUES ('$tododesc')";
+    $query  = "INSERT INTO `todolist`( `tododesc`,`updated_at`) VALUES ('$tododesc',NOW())";
 // echo($query);die();
     if (mysqli_query($conn, $query)) {
         $result= ["status"=>"success"];
